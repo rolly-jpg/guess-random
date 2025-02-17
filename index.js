@@ -39,13 +39,14 @@ function playRound(humanChoice, computerChoice) {
         humanChoice === 'scissors' && computerChoice === 'paper') {
         humanScore++
         console.log('human wins')
-        }
+    }
     else if (humanChoice === computerChoice) {
         console.log('tie')
     }
-    else
+    else {
         computerScore++
         console.log('computer wins')
+    }
 }
 
 function playGame(rounds) {
