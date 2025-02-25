@@ -1,9 +1,16 @@
-console.log("hello")
-
 let humanScore = 0
 let computerScore = 0
 
-playGame(5)
+const rockButton = document.querySelector("#rock")
+const paperButton = document.querySelector("#paper")
+const scissorsButton = document.querySelector("#scissors")
+
+rockButton.addEventListener('click', () => { playRound("rock", getComputerChoice()) })
+paperButton.addEventListener('click', () => { playRound("paper", getComputerChoice()) })
+scissorsButton.addEventListener('click', () => { playRound("scissors", getComputerChoice()) })
+
+const resultDiv = document.createElement("div")
+document.body.appendChild(resultDiv)
 
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3)
@@ -19,43 +26,26 @@ function getComputerChoice() {
             choice = 'scissors'
             break
     }
-    console.log(choice)
-    return choice
-}
-
-function getHumanChoice() {
-    let choice = ''
-    while (choice !== 'rock' && choice !== 'paper' && choice !== 'scissors') {
-        choice = prompt('your guess?','').toLowerCase()
-    }
-    console.log(choice)
     return choice
 }
 
 function playRound(humanChoice, computerChoice) {
-    console.log(humanChoice,computerChoice)
     if (humanChoice === 'rock' && computerChoice === 'scissors' ||
         humanChoice === 'paper' && computerChoice === 'rock' ||
         humanChoice === 'scissors' && computerChoice === 'paper') {
         humanScore++
-        console.log('human wins')
+        resultDiv.textContent = `computer chose ${computerChoice}, human wins. Current score is ${humanScore}:${computerScore}`
     }
     else if (humanChoice === computerChoice) {
-        console.log('tie')
+        resultDiv.textContent = `computer chose ${computerChoice}, it's a tie. Current score is ${humanScore}:${computerScore}`
     }
     else {
         computerScore++
-        console.log('computer wins')
+        resultDiv.textContent = `computer chose ${computerChoice}, computer wins. Current score is ${humanScore}:${computerScore}`
     }
-}
 
-function playGame(rounds) {
-    let humanChoice, computerChoice
-    for (let i = 0; i < rounds; i++) {
-        humanChoice = getHumanChoice()
-        computerChoice = getComputerChoice()
-        playRound(humanChoice, computerChoice)
+    if (humanScore === 5 || computerScore === 5) {
+        let winner = humanScore>computerScore ? 'human' : (computerScore>humanScore?'computer':'tied')
+        resultDiv.textContent = `human score: ${humanScore}, computer score: ${computerScore}, the winner is ${winner}`
     }
-    let winner = humanScore>computerScore ? 'human' : (computerScore>humanScore?'computer':'tied')
-    console.log(`human score: ${humanScore}, computer score: ${computerScore}, the winner is ${winner}`)
 }
